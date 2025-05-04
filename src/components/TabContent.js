@@ -10,6 +10,16 @@ const TabContent = ({ tabIndex, tabName }) => {
     const [response, setResponse] = useState('');
     const [showResponse, setShowResponse] = useState(false);
 
+    function getSparkontoOptions(tabIndex) {
+        switch (tabIndex) {
+            case 0: return [1, 2, 3];       // Bankpaket Basic
+            case 1: return [1, 2, 3, 4, 5]; // Bankpaket Plus
+            case 2: return [1, 2];          // Bankpaket Zero
+            case 3: return [1, 2, 3, 4, 5]; // Bankpaket Young
+            default: return [1];
+        }
+    }
+
     async function switchBankpaket(tabNr, data) {
         switch (tabNr) {
             case 0:
@@ -162,13 +172,10 @@ const TabContent = ({ tabIndex, tabName }) => {
                     onChange={(e) => setMitKreditkarte(e.target.checked)}
                 />
             </label>
-            <select
-                value={anzahlSparkonten}
-                onChange={(e) => setAnzahlSparkonten(parseInt(e.target.value))}
-            >
-                {[1, 2, 3, 4, 5].map((num) => (
+            <select value={anzahlSparkonten} onChange={(e) => setAnzahlSparkonten(parseInt(e.target.value))}>
+                {getSparkontoOptions(tabIndex).map(num => (
                     <option key={num} value={num}>
-                        {num} Sparkonto{num > 1 ? '' : ''}
+                        {num} {num === 1 ? 'Sparkonto' : 'Sparkonten'}
                     </option>
                 ))}
             </select>
